@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebMaster Pro Hub - מרכז הבקרה</title>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Heebo', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            min-height: 100vh;
+        }
+
+        .hub {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .status-bar {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            background: #f8f9fa;
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .status-online { background: #28a745; }
+        .status-warning { background: #ffc107; }
+        .status-offline { background: #dc3545; }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .main-sections {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .section-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #667eea;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-description {
+            color: #666;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .quick-stat {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .quick-stat-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #667eea;
+            display: block;
+        }
+
+        .quick-stat-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            flex: 1;
+            min-width: 120px;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+            color: white;
+        }
+
+        .btn-info {
+            background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%);
+            color: white;
+        }
+
+        .demos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .demo-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .demo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .demo-header {
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+        }
+
+        .demo-status {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .demo-content {
+            padding: 1.5rem;
+        }
+
+        .demo-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .demo-url {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1rem;
+            word-break: break-all;
+        }
+
+        .demo-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .demo-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .demo-btn {
+            flex: 1;
+            padding: 0.6rem 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .tools-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .tools-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: #667eea;
+            text-align: center;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .tool-item {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .tool-item:hover {
+            border-color: #667eea;
+            transform: translateY(-3px);
+        }
+
+        .tool-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .tool-name {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .tool-description {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .navigation-menu {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+        }
+
+        .nav-items {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-item {
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .hub {
+                padding: 1rem;
+            }
+
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .main-sections {
+                grid-template-columns: 1fr;
+            }
+
+            .status-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .nav-items {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hub">
+        <div class="header">
+            <h1>WebMaster Pro Hub</h1>
+            <p>מרכז הבקרה המאוחד לכל הפרויקטים שלך</p>
+        </div>
+
+        <div class="navigation-menu">
+            <div class="nav-items">
+                <a href="#" class="nav-item" onclick="navigateTo('gallery')">🎨 גלריה ראשית</a>
+                <a href="#" class="nav-item" onclick="navigateTo('analytics')">📊 אנליטיקס</a>
+                <a href="#" class="nav-item" onclick="navigateTo('demos')">🚀 דמואים</a>
+                <a href="#" class="nav-item" onclick="navigateTo('tools')">🛠️ כלים</a>
+                <a href="#" class="nav-item" onclick="navigateTo('settings')">⚙️ הגדרות</a>
+            </div>
+        </div>
+
+        <div class="status-bar">
+            <div class="status-item">
+                <div class="status-indicator status-online"></div>
+                <span>גלריה ראשית: פעילה</span>
+            </div>
+            <div class="status-item">
+                <div class="status-indicator status-online"></div>
+                <span>4 דמואים: פעילים</span>
+            </div>
+            <div class="status-item">
+                <div class="status-indicator status-online"></div>
+                <span>אנליטיקס: רץ</span>
+            </div>
+            <div class="status-item">
+                <div class="status-indicator status-warning"></div>
+                <span>גיבויים: דרושים</span>
+            </div>
+        </div>
+
+        <div class="main-sections">
+            <div class="section-card">
+                <h2 class="section-title">
+                    🎨 ניהול הגלריה
+                </h2>
+                <p class="section-description">
+                    נהל את גלריית התבניות, עדכן תוכן והוסף תבניות חדשות
+                </p>
+                <div class="quick-stats">
+                    <div class="quick-stat">
+                        <span class="quick-stat-number">17</span>
+                        <span class="quick-stat-label">תבניות</span>
+                    </div>
+                    <div class="quick-stat">
+                        <span class="quick-stat-number">4</span>
+                        <span class="quick-stat-label">דמואים חיים</span>
+                    </div>
+                </div>
+                <div class="action-buttons">
+                    <a href="#" class="btn btn-primary" onclick="navigateTo('gallery')">🎨 פתח גלריה</a>
+                    <a href="#" class="btn btn-success" onclick="editTemplate()">✏️ עריכה</a>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h2 class="section-title">
+                    📊 אנליטיקס ודוחות
+                </h2>
+                <p class="section-description">
+                    צפה בביצועים, נתוני תנועה ותובנות עסקיות חכמות
+                </p>
+                <div class="quick-stats">
+                    <div class="quick-stat">
+                        <span class="quick-stat-number">2,847</span>
+                        <span class="quick-stat-label">ביקורים השבוע</span>
+                    </div>
+                    <div class="quick-stat">
+                        <span class="quick-stat-number">12.4%</span>
+                        <span class="quick-stat-label">שיעור המרה</span>
+                    </div>
+                </div>
+                <div class="action-buttons">
+                    <a href="#" class="btn btn-info" onclick="navigateTo('analytics')">📊 דשבורד</a>
+                    <a href="#" class="btn btn-warning" onclick="exportData()">📥 יצוא נתונים</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2 class="section-title">🚀 דמואים חיים</h2>
+            <div class="demos-grid">
+                <div class="demo-card">
+                    <div class="demo-header" style="background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);">
+                        🏋️‍♂️
+                        <div class="demo-status status-online"></div>
+                    </div>
+                    <div class="demo-content">
+                        <div class="demo-title">מאמן כושר אישי</div>
+                        <div class="demo-url">fitness-coach-demo.netlify.app</div>
+                        <div class="demo-stats">
+                            <span>347 צפיות</span>
+                            <span>85% זמן פעילות</span>
+                        </div>
+                        <div class="demo-actions">
+                            <a href="#" class="demo-btn btn-primary" onclick="openDemo('fitness')">🚀 פתח</a>
+                            <a href="#" class="demo-btn btn-success" onclick="editDemo('fitness')">✏️ ערוך</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-card">
+                    <div class="demo-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        🧘‍♀️
+                        <div class="demo-status status-online"></div>
+                    </div>
+                    <div class="demo-content">
+                        <div class="demo-title">סטודיו יוגה</div>
+                        <div class="demo-url">yoga-studio-demo.netlify.app</div>
+                        <div class="demo-stats">
+                            <span>265 צפיות</span>
+                            <span>92% זמן פעילות</span>
+                        </div>
+                        <div class="demo-actions">
+                            <a href="#" class="demo-btn btn-primary" onclick="openDemo('yoga')">🚀 פתח</a>
+                            <a href="#" class="demo-btn btn-success" onclick="editDemo('yoga')">✏️ ערוך</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-card">
+                    <div class="demo-header" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%);">
+                        🍎
+                        <div class="demo-status status-online"></div>
+                    </div>
+                    <div class="demo-content">
+                        <div class="demo-title">תזונאית קלינית</div>
+                        <div class="demo-url">nutritionist-clinic-demo.netlify.app</div>
+                        <div class="demo-stats">
+                            <span>234 צפיות</span>
+                            <span>88% זמן פעילות</span>
+                        </div>
+                        <div class="demo-actions">
+                            <a href="#" class="demo-btn btn-primary" onclick="openDemo('nutrition')">🚀 פתח</a>
+                            <a href="#" class="demo-btn btn-success" onclick="editDemo('nutrition')">✏️ ערוך</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-card">
+                    <div class="demo-header" style="background: linear-gradient(135deg, #1a365d 0%, #d4af37 100%);">
+                        ⚖️
+                        <div class="demo-status status-online"></div>
+                    </div>
+                    <div class="demo-content">
+                        <div class="demo-title">עורכי דין</div>
+                        <div class="demo-url">law-firm-demo.netlify.app</div>
+                        <div class="demo-stats">
+                            <span>289 צפיות</span>
+                            <span>94% זמן פעילות</span>
+                        </div>
+                        <div class="demo-actions">
+                            <a href="#" class="demo-btn btn-primary" onclick="openDemo('law')">🚀 פתח</a>
+                            <a href="#" class="demo-btn btn-success" onclick="editDemo('law')">✏️ ערוך</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tools-section">
+            <h2 class="tools-title">🛠️ כלים וגיבויים</h2>
+            <div class="tools-grid">
+                <div class="tool-item">
+                    <span class="tool-icon">💾</span>
+                    <div class="tool-name">גיבוי אוטומטי</div>
+                    <div class="tool-description">גיבוי יומי של כל הפרויקטים</div>
+                    <a href="#" class="btn btn-success" onclick="createBackup()">צור גיבוי</a>
+                </div>
+
+                <div class="tool-item">
+                    <span class="tool-icon">🔄</span>
+                    <div class="tool-name">סנכרון</div>
+                    <div class="tool-description">סנכרון בין GitHub ו-Netlify</div>
+                    <a href="#" class="btn btn-info" onclick="syncProjects()">סנכרן</a>
+                </div>
+
+                <div class="tool-item">
+                    <span class="tool-icon">📋</span>
+                    <div class="tool-name">שכפול תבנית</div>
+                    <div class="tool-description">צור תבנית חדשה מקיימת</div>
+                    <a href="#" class="btn btn-warning" onclick="cloneTemplate()">שכפל</a>
+                </div>
+
+                <div class="tool-item">
+                    <span class="tool-icon">🎨</span>
+                    <div class="tool-name">עורך ויזואלי</div>
+                    <div class="tool-description">עריכת תבניות בזמן אמת</div>
+                    <a href="#" class="btn btn-primary" onclick="openVisualEditor()">פתח עורך</a>
+                </div>
+
+                <div class="tool-item">
+                    <span class="tool-icon">📈</span>
+                    <div class="tool-name">דוחות מתקדמים</div>
+                    <div class="tool-description">ניתוח עמוק וביצועים</div>
+                    <a href="#" class="btn btn-info" onclick="generateReports()">צור דוח</a>
+                </div>
+
+                <div class="tool-item">
+                    <span class="tool-icon">🚀</span>
+                    <div class="tool-name">פריסה מהירה</div>
+                    <div class="tool-description">העלאת תבניות באייקליק</div>
+                    <a href="#" class="btn btn-success" onclick="quickDeploy()">פרסם</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Navigation functions
+        const projectUrls = {
+            gallery: 'https://webmaster-pro-html.netlify.app/',
+            analytics: 'https://webmaster-pro-analytics.netlify.app/',
+            fitness: 'https://fitness-coach-demo.netlify.app/',
+            yoga: 'https://yoga-studio-demo.netlify.app/',
+            nutrition: 'https://nutritionist-clinic-demo.netlify.app/',
+            law: 'https://law-firm-demo.netlify.app/'
+        };
+
+        function navigateTo(project) {
+            if (projectUrls[project]) {
+                window.open(projectUrls[project], '_blank');
+            } else {
+                alert(`נווט ל${project}`);
+            }
+        }
+
+        function openDemo(demo) {
+            if (projectUrls[demo]) {
+                window.open(projectUrls[demo], '_blank');
+            }
+        }
+
+        function editDemo(demo) {
+            alert(`פתיחת עורך עבור ${demo}`);
+        }
+
+        function editTemplate() {
+            alert('פתיחת עורך התבניות');
+        }
+
+        function exportData() {
+            alert('יצוא נתונים... (CSV/Excel)');
+        }
+
+        function createBackup() {
+            const btn = event.target;
+            btn.innerHTML = '💾 יוצר גיבוי...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                btn.innerHTML = 'צור גיבוי';
+                btn.disabled = false;
+                alert('הגיבוי נוצר בהצלחה!');
+            }, 2000);
+        }
+
+        function syncProjects() {
+            alert('מסנכרן פרויקטים עם GitHub ו-Netlify...');
+        }
+
+        function cloneTemplate() {
+            const template = prompt('איזה תבנית תרצה לשכפל?', 'מאמן כושר');
+            if (template) {
+                alert(`שוכפל תבנית: ${template}`);
+            }
+        }
+
+        function openVisualEditor() {
+            alert('פותח עורך ויזואלי...');
+        }
+
+        function generateReports() {
+            alert('יוצר דוח מתקדם...');
+        }
+
+        function quickDeploy() {
+            alert('פריסה מהירה של תבנית חדשה...');
+        }
+
+        // Auto-refresh status
+        function updateStatus() {
+            const indicators = document.querySelectorAll('.status-indicator');
+            indicators.forEach(indicator => {
+                // Simulate status check
+                const isOnline = Math.random() > 0.1; // 90% uptime
+                indicator.className = `status-indicator ${isOnline ? 'status-online' : 'status-offline'}`;
+            });
+        }
+
+        // Update every 30 seconds
+        setInterval(updateStatus, 30000);
+
+        // Welcome message
+        setTimeout(() => {
+            alert('ברוך הבא למרכז הבקרה של WebMaster Pro! 🚀');
+        }, 1000);
+    </script>
+</body>
+</html>
